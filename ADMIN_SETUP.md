@@ -1,0 +1,4 @@
+# Admin dashboard
+Set ADMIN_EMAIL privately in Render to the email of the already-created administrator account and deploy. Never put a personal email or secrets in this public repository. Visit /admin while logged into that account. The worker resolves the configured email to an existing immutable account ID at startup; if absent, all admin access is denied until an account exists and the service is redeployed. Only that ID is authorized.
+
+The dashboard displays names, referral totals, referring names and signup dates with search, sort and pagination. It does not expose passwords or emails. No database migration is needed. gunicorn.conf.py registers the routes when each worker starts. Keep launching Gunicorn from the repository root without overriding its config. Before broad public use add email verification and stronger administrator authentication.
