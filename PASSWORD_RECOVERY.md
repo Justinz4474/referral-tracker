@@ -1,0 +1,6 @@
+# Password recovery
+Private Render settings: BREVO_API_KEY, MAIL_FROM_EMAIL, MAIL_FROM_NAME. A verified sender and enabled Brevo transactional sending are required. No secrets are stored in GitHub.
+
+Forgot-password requests send a signed random-nonce link to the account email via Brevo HTTPS API. Tokens expire in 15 minutes and are bound to the stored password fingerprint. Reset locks the account row and changes the password hash, invalidating every outstanding reset link and all sessions using the old password fingerprint. Existing pre-update sessions must log in again once. Login and signup establish the new session fingerprint. GET never changes a password. Reset POST uses CSRF protection. No automatic login after reset.
+
+The UI always returns a generic email-request message. Email delivery has not been tested by this code update. Check Brevo delivery status privately. Never log or share reset links. Disable access logging of reset-token URLs in infrastructure where possible. Free-tier in-process request limits reset on restart and may group users behind proxies; shared rate limits and background email dispatch are recommended before wider production use. Email sending is synchronous, so response timing is not fully equalized. Account email verification is still not implemented.
